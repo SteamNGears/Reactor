@@ -1,0 +1,37 @@
+﻿using UnityEngine;
+using System.Collections;
+using Reactor;
+
+public class WaitForClickNode : BaseNode 
+{
+	public enum ClickTypes{LEFT = 0, RIGHT = 1, MIDDLE = 2};
+	public ClickTypes ClickType = ClickTypes.LEFT;
+	public Collider target;
+	Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+	RaycastHit hit;
+
+	// Use this for initialization
+	override public void Start () 
+	{
+		if(this.target == null)
+			this.target = this.m_Sequence.m_GameObject.GetComponent<Collider>();
+	}
+	
+	// Update is called once per frame
+	override public void Update () 
+	{
+		if(Input.GetMouseButtonDown((int)ClickType))
+		{
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if (Physics.Raycast(ray, out hit, 10000000)) 
+			{
+
+				if(hit.collider == this.target)
+				{
+					Debug.DrawLine(ray.origin, hit.point);
+					this.End();
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f340788118d3a4de78b16a9eff8b4e30, type: 3}
+  m_Name: new_sequence
+  m_EditorClassIdentifier: 
+  m_GameObject: {fileID: 0}
+  nodes:
+    keys: 00000000010000000200000003000000
+    values:
+    - {fileID: 0}
+    - {fileID: 11472002}
+    - {fileID: 11415782}
+    - {fileID: 11474392}
+--- !u!114 &11415782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bf42ec743ba2c04bb2c291b121ed4c3, type: 3}
+  m_Name: DELAY
+  m_EditorClassIdentifier: 
+  m_Sequence: {fileID: 0}
+  next:
+  - {fileID: 11472002}
+  prev: {fileID: 11430188}
+  position:
+    serializedVersion: 2
+    x: 175
+    y: 92
+    width: 200
+    height: 100
+  delay: 10
+  timer: 10
+--- !u!114 &11430188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b490cdf99a1354fff9ea3aa627009cf1, type: 3}
+  m_Name: START
+  m_EditorClassIdentifier: 
+  m_Sequence: {fileID: 0}
+  next:
+  - {fileID: 11415782}
+  - {fileID: 11474392}
+  prev: {fileID: 0}
+  position:
+    serializedVersion: 2
+    x: 67
+    y: 243
+    width: 200
+    height: 100
+--- !u!114 &11472002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24736a0652abf474c9f64c692d99afcd, type: 3}
+  m_Name: DEBUG LOG
+  m_EditorClassIdentifier: 
+  m_Sequence: {fileID: 0}
+  next: []
+  prev: {fileID: 11415782}
+  position:
+    serializedVersion: 2
+    x: 448
+    y: 84
+    width: 200
+    height: 100
+  message: END!!!!
+--- !u!114 &11474392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24736a0652abf474c9f64c692d99afcd, type: 3}
+  m_Name: DEBUG LOG
+  m_EditorClassIdentifier: 
+  m_Sequence: {fileID: 0}
+  next: []
+  prev: {fileID: 11430188}
+  position:
+    serializedVersion: 2
+    x: 339
+    y: 421
+    width: 200
+    height: 100
+  message: START!!!!
