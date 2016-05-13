@@ -7,11 +7,11 @@ namespace Reactor
 	/// <summary>
 	/// A base node class for the node editor
 	/// </summary>
-    [System.Serializable]
 	public abstract class BaseNode : MonoBehaviour
 	{
 		[HideInInspector]
 		public NodeSequence m_Sequence;
+		public int id;
 		/// <summary>
 		/// Gets a value indicating whether this <see cref="BaseNode"/> is active.
 		/// </summary>

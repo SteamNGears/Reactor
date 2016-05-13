@@ -7,7 +7,7 @@ namespace Reactor
 	{
 		public StartNode ()
 		{
-			this.name = "START";
+		
 		}
 
         public override void Update()

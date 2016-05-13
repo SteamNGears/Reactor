@@ -13,7 +13,7 @@ namespace Reactor
         /// <summary>
         /// The sequence.
         /// </summary>
-        public NodeSequence sequence;
+        public static NodeScene sequence;
         Vector2 RightClickPos = new Vector2();
         Vector2 Pan = new Vector2();
         Vector2 deltaPan = new Vector2();
@@ -28,7 +28,7 @@ namespace Reactor
         static void ShowEditor()
         {
             NodeEditor editor = EditorWindow.GetWindow<NodeEditor>();
-            editor.Init("Assets/new_sequence.asset");
+            editor.Init(Selection.activeGameObject);
 
         }
 
@@ -38,15 +38,15 @@ namespace Reactor
         void Update()
         {
 			//check for active gameobjet
-			if(Selection.activeObject != null && Selection.activeObject != this.sequence)
+			if(Selection.activeObject != null && Selection.activeObject != sequence)
 			{
 				var go  = Selection.activeGameObject;
 				if(go != null)
 				{
 					var selection = go.GetComponent<NodeScene>();
-					if(selection!= null && selection.sequence != null)
+					if(selection!= null)
 					{
-						this.sequence = selection.sequence;
+						sequence = selection;
 						Repaint();
 						return;
 					}
@@ -57,33 +57,15 @@ namespace Reactor
                 Repaint();
         }
 
-        /// <summary>
-        /// REally does nothing
-        /// </summary>
-        public void Init(string sequencePath)
+        public void Init(GameObject target)
         {
-            sequencepath = sequencePath;
-//            Debug.Log("Initializing Sequence");
-            this.sequence = AssetDatabase.LoadAssetAtPath<NodeSequence>(sequencePath);
-            if (this.sequence == null)
-            {
-                Debug.Log("NodeEditor: Could not open sequence: " + sequencePath);
-                this.sequence = ScriptableObject.CreateInstance<NodeSequence>();
-                this.sequence.Init();
-                AssetDatabase.CreateAsset(this.sequence, sequencePath);
-                AssetDatabase.AddObjectToAsset(this.sequence.startNode, sequencePath);
-                AssetDatabase.SaveAssets();
-            }
-            // this.sequence = ScriptableObject.CreateInstance<NodeSequence>();
-            //this.sequence.Init();
-            this.titleContent.text = "REACTOR";
+			this.titleContent.text = "REACTOR";
+            Debug.Log("Initializing Sequence");
+			if(target == null)
+				return;
+			sequence = target.GetComponent<NodeScene>();
+            
         }
-
-
-
-
-
-
 
         /// <summary>
         /// TODO: Break this up into seperate handlers
@@ -116,7 +98,7 @@ namespace Reactor
 
 			if(GUI.Button(new Rect(10,10,50,50), "Save"))
 			{
-				EditorUtility.SetDirty(this.sequence);
+				EditorUtility.SetDirty(sequence);
 				AssetDatabase.SaveAssets();
 			}
 
@@ -157,25 +139,25 @@ namespace Reactor
 
         void HandleConnections(Event e)
         {
-            if (this.sequence == null || this.sequence.nodes == null)
+            if (sequence == null || sequence.nodes == null)
                 return;
             if ((e.type == EventType.MouseDown) && e.button == 0)
             {
-                    foreach (int key in this.sequence.nodes.Keys)
+                    foreach (int key in sequence.nodes.Keys)
                     {
-                        if (CurveUtils.IsStartCurve(this.sequence.nodes[key], e.mousePosition))
+                        if (CurveUtils.IsStartCurve(sequence.nodes[key], e.mousePosition))
                         {
                             this.isDraggingConnector = true;
-                            this.dragStart = this.sequence.nodes[key];
+                            this.dragStart = sequence.nodes[key];
                             e.Use();
                             break;
                         }
-                        else if (CurveUtils.IsEndCurve(this.sequence.nodes[key], e.mousePosition) && this.sequence.nodes[key].prev != null)
+                        else if (CurveUtils.IsEndCurve(sequence.nodes[key], e.mousePosition) && sequence.nodes[key].prev != null)
                         {
-                            this.dragStart = this.sequence.nodes[key].prev;
+                            this.dragStart = sequence.nodes[key].prev;
                             this.isDraggingConnector = true;
-                            this.sequence.nodes[key].prev.Remove(this.sequence.nodes[key]);
-                            this.sequence.nodes[key].prev = null;
+                            sequence.nodes[key].prev.Remove(sequence.nodes[key]);
+                            sequence.nodes[key].prev = null;
 
                         }
                     }
@@ -184,12 +166,12 @@ namespace Reactor
             {
                 this.isDraggingConnector = false;
 
-                foreach (int key in this.sequence.nodes.Keys)
+                foreach (int key in sequence.nodes.Keys)
                 {
-                    if (CurveUtils.IsEndCurve(this.sequence.nodes[key], e.mousePosition))
+                    if (CurveUtils.IsEndCurve(sequence.nodes[key], e.mousePosition))
                     {
-                        this.sequence.nodes[key].AddInput(this.dragStart);
-                        this.dragStart.AddOutput(this.sequence.nodes[key]);
+                        sequence.nodes[key].AddInput(this.dragStart);
+                        this.dragStart.AddOutput(sequence.nodes[key]);
                     }
                 }
                 Repaint();//repaint to stop drawing the curve
@@ -198,17 +180,17 @@ namespace Reactor
 
         void HandleSelection(Event e)
         {
-            if (this.sequence == null)
+            if (sequence == null)
                 return;
             if ((e.type == EventType.MouseDown) && e.button == 0)
             {
                 if (!isDraggingConnector)
                 {
-                    foreach (int key in this.sequence.nodes.Keys)
+                    foreach (int key in sequence.nodes.Keys)
                     {
-                        if (this.sequence.nodes[key].position.Contains(e.mousePosition))
+                        if (sequence.nodes[key].position.Contains(e.mousePosition))
                         {
-                            this.SelectedNode = this.sequence.nodes[key];
+                            this.SelectedNode = sequence.nodes[key];
                         }
                     }
                 }
@@ -239,14 +221,7 @@ namespace Reactor
 
         public void AddItem(object o)
         {
-
-			BaseNode newItem = (BaseNode)ScriptableObject.CreateInstance((Type)o);//(BaseNode)Activator.CreateInstance(((Type)o));
-            newItem.position.x = RightClickPos.x;
-            newItem.position.y = RightClickPos.y;
-            this.sequence.AddNode(newItem);
-            AssetDatabase.AddObjectToAsset(newItem, sequencepath);
-			newItem.name = newItem.GetType().Name;
-			AssetDatabase.SaveAssets();
+			sequence.AddNode((Type)o, RightClickPos);
         }
 
 
@@ -257,15 +232,15 @@ namespace Reactor
 
         void DrawNodes()
         {
-            if (this.sequence == null || this.sequence.nodes == null)
+            if (sequence == null || sequence.nodes == null)
                 return;
-            foreach (int key in this.sequence.nodes.Keys)
+            foreach (int key in sequence.nodes.Keys)
             {
-                DrawDrop(this.sequence.nodes[key], key);
-                if (this.sequence.nodes[key].next == null)
+                DrawDrop(sequence.nodes[key], key);
+                if (sequence.nodes[key].next == null)
                     continue;
-                foreach (BaseNode child in this.sequence.nodes[key].next)
-                    CurveUtils.DrawNodeCurve(this.sequence.nodes[key].position, child.position);
+                foreach (BaseNode child in sequence.nodes[key].next)
+                    CurveUtils.DrawNodeCurve(sequence.nodes[key].position, child.position);
             }
         }
 
@@ -304,7 +279,7 @@ namespace Reactor
 
         public void DrawNode(int id)
         {
-            Editor e = Editor.CreateEditor(this.sequence.nodes[id]);
+            Editor e = Editor.CreateEditor(sequence.nodes[id]);
             e.DrawDefaultInspector();//do default node drawing
                                      //e.OnInspectorGUI();
             GUI.DragWindow();

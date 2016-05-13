@@ -11,7 +11,8 @@ public class CallFunctionNode : BaseNode
 	// Use this for initialization
 	override public void Start () 
 	{
-		this.funciton.Invoke();
+		if(this.funciton != null)
+			this.funciton.Invoke();
 		this.End();
 	}
 	
