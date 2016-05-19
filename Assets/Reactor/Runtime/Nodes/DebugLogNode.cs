@@ -8,10 +8,10 @@ public class DebugLogNode : BaseNode
 
 	public DebugLogNode()
 	{
-		this.name = "DEBUG LOG";
+		this.NodeName = "DEBUG LOG";
 	}
 
-	public override void Start ()
+	void Start ()
 	{
         Debug.Log(this.message);
 		this.End();

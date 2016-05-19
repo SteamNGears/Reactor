@@ -10,16 +10,15 @@ public class DelayNode : BaseNode
 
 	public DelayNode()
 	{
-		this.name = "DELAY";
+		this.NodeName = "DELAY";
 	}
 
-    public override void Start()
+   	void Start()
 	{
 		this.timer = 0.0f;
-        base.Start();
     }
 
-    public override void Update()
+    void Update()
     {
         timer += Time.deltaTime;
         if (timer >= this.delay)

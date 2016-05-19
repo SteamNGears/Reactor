@@ -10,22 +10,10 @@ namespace Reactor
 	public abstract class BaseNode : MonoBehaviour
 	{
 		[HideInInspector]
-		public NodeSequence m_Sequence;
 		public int id;
-		/// <summary>
-		/// Gets a value indicating whether this <see cref="BaseNode"/> is active.
-		/// </summary>
-		/// <value><c>true</c> if active; otherwise, <c>false</c>.</value>
-		public bool Active {
-			get;
-			internal set;
-		}
 
-		public GameObject m_GameObject
-		{
-			get{return this.m_Sequence.m_GameObject;}
-			private set{this.m_Sequence.m_GameObject = value;}
-		}
+		[HideInInspector]
+		public string NodeName;
 
 		/// <summary>
 		/// The next nodes in the sequence
@@ -50,20 +38,11 @@ namespace Reactor
 		/// </summary>
 		public void Init ()//@TODO: Change back to internal after testing
 		{
-			this.Active = true;
-			this.Start ();
+			//this.Start ();
 		}
 
-		/// <summary>
-		/// The node's starting point
-		/// </summary>
-		public virtual void Start (){}
 
 
-		/// <summary>
-		/// The node's update point
-		/// </summary>
-		public virtual void Update (){}
 
 		/// <summary>
 		/// Call in Start() or Update() to indicate that this node has completed its lifecycle
@@ -71,7 +50,6 @@ namespace Reactor
 		public void End ()
 		{            
 			this.OnComplete();
-			this.Active = false;
 		}
 
         /// <summary>
@@ -79,7 +57,13 @@ namespace Reactor
         /// </summary>
 		public virtual void OnComplete()
         {
-			
+			if(this.next == null)
+				return;
+			foreach(BaseNode n in this.next)
+			{
+				n.enabled = true;
+			}
+			this.enabled = false;
         }
 
         /// <summary>

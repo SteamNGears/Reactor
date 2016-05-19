@@ -11,14 +11,14 @@ public class WaitForClickNode : BaseNode
 	RaycastHit hit;
 
 	// Use this for initialization
-	override public void Start () 
+	void Start () 
 	{
 		if(this.target == null)
-			this.target = this.m_Sequence.m_GameObject.GetComponent<Collider>();
+			this.target = this.gameObject.GetComponent<Collider>();
 	}
 	
 	// Update is called once per frame
-	override public void Update () 
+	void Update () 
 	{
 		if(Input.GetMouseButtonDown((int)ClickType))
 		{

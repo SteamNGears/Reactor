@@ -8,15 +8,15 @@ public class SetEnabledNode :  BaseNode
 	public bool value = false;
 
 
-	public override void Start ()
+	void Start ()
 	{
 		if(this.target == null)
-			this.target = this.m_Sequence.m_GameObject;
-		this.m_Sequence.m_GameObject.SetActive(value);
+			this.target = this.gameObject;
+		this.gameObject.SetActive(value);
 		this.End();
 	}
 	  
-	public override void Update ()
+	void Update ()
 	{
 
 	}

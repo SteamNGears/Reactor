@@ -60,10 +60,12 @@ namespace Reactor
         public void Init(GameObject target)
         {
 			this.titleContent.text = "REACTOR";
-            Debug.Log("Initializing Sequence");
 			if(target == null)
 				return;
-			sequence = target.GetComponent<NodeScene>();
+
+			var tmp = target.GetComponent<NodeScene>();
+			if(tmp != null)
+				sequence = tmp;
             
         }
 
@@ -258,7 +260,7 @@ namespace Reactor
                         new Vector3(n.position.x - i, n.position.y + n.position.height + i, 0),
                 };
 
-                if (n.Active)
+                if (n.enabled)
                 { 
 					Handles.color = new Color(0.0f, 1.0f, 0.0f, 0.2f);
 					Handles.DrawSolidRectangleWithOutline(verts, Handles.color, Handles.color);
@@ -273,7 +275,7 @@ namespace Reactor
             }
 
             //GUI.Box(new Rect(n.position.x - margin, n.position.y - margin, n.position.width + (2 * margin),  n.position.height + (2 * margin)),"");
-            n.position = GUI.Window(id, new Rect((n.position.x + deltaPan.x) * DeltaZoom, (n.position.y + deltaPan.y) * DeltaZoom, n.position.width * DeltaZoom, n.position.height * DeltaZoom), DrawNode, n.name);
+            n.position = GUI.Window(id, new Rect((n.position.x + deltaPan.x) * DeltaZoom, (n.position.y + deltaPan.y) * DeltaZoom, n.position.width * DeltaZoom, n.position.height * DeltaZoom), DrawNode, n.NodeName);
             NodeUtils.DrawConnector(n);
         }
 

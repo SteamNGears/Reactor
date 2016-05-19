@@ -9,7 +9,7 @@ public class CallFunctionNode : BaseNode
 	public UnityEvent funciton;
 
 	// Use this for initialization
-	override public void Start () 
+	void Start () 
 	{
 		if(this.funciton != null)
 			this.funciton.Invoke();
@@ -17,7 +17,7 @@ public class CallFunctionNode : BaseNode
 	}
 	
 	// Update is called once per frame
-	override public void Update () 
+	void Update () 
 	{
 	
 	}

@@ -10,8 +10,8 @@ public class PlayAnimationNode : BaseNode {
 	public Animator anim;
 
 	// Use this for initialization
-	public override void Start () {
-		anim = this.m_Sequence.m_GameObject.GetComponent<Animator>();
+	void Start () {
+		anim = this.gameObject.GetComponent<Animator>();
 		if(anim == null)
 		{
 			Debug.Log("No animator attached to gameobject!!!");
@@ -23,7 +23,7 @@ public class PlayAnimationNode : BaseNode {
 	}
 	
 	// Update is called once per frame
-	public override void Update () 
+	void Update () 
 	{
 
 	}

@@ -7,10 +7,10 @@ namespace Reactor
 	{
 		public StartNode ()
 		{
-		
+			this.NodeName = "START";
 		}
 
-        public override void Update()
+        void Update()
         {
             this.End();
         }
