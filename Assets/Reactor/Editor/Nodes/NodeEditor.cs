@@ -20,6 +20,7 @@ namespace Reactor
         float DeltaZoom = 1.0f;
 
         private bool isDraggingConnector = false;
+		private bool isResizingWindow = false;
         private BaseNode dragStart;
         private BaseNode SelectedNode = null;
 
@@ -53,7 +54,7 @@ namespace Reactor
 				}
 			}
 
-			if (isDraggingConnector || Application.isPlaying)
+			if (isDraggingConnector || isResizingWindow || Application.isPlaying)
                 Repaint();
         }
 
@@ -84,6 +85,8 @@ namespace Reactor
             HandleConnections(e);
             HandleRightClickMenu(e);
             HandlePanZoom(e);
+			HandleResize(e);
+
 
 
             GUI.BeginGroup(new Rect(0, 0, 100000, 100000));
@@ -97,12 +100,6 @@ namespace Reactor
                 Rect dragEnd = new Rect(e.mousePosition.x, e.mousePosition.y, 1, 1);
                 CurveUtils.DrawNodeCurve(dragStart.position, dragEnd);
             }
-
-			if(GUI.Button(new Rect(10,10,50,50), "Save"))
-			{
-				EditorUtility.SetDirty(sequence);
-				AssetDatabase.SaveAssets();
-			}
 
             EndWindows();
             GUI.EndGroup();
@@ -210,6 +207,40 @@ namespace Reactor
         }
 
 
+		void HandleResize(Event e)
+		{
+			if (sequence == null || sequence.nodes == null)
+				return;
+
+			foreach(int key in sequence.nodes.Keys)
+			{
+				if(NodeUtils.IsResizeHandle(sequence.nodes[key], e.mousePosition))
+				{	
+					EditorGUIUtility.AddCursorRect(new Rect((sequence.nodes[key].position.xMax - 20),(sequence.nodes[key].position.yMax - 20),sequence.nodes[key].position.xMax,sequence.nodes[key].position.yMax), MouseCursor.ResizeUpLeft);	
+
+					if ((e.type == EventType.MouseDown) && e.button == 0)
+					{
+						this.isResizingWindow = true;
+						this.dragStart = sequence.nodes[key];
+					}
+				}	
+			}
+
+			if(isResizingWindow)
+			{
+				this.dragStart.position.width += e.delta.x;
+				this.dragStart.position.height += e.delta.y;
+			}
+
+			if ((e.type == EventType.MouseUp) && e.button == 0)
+			{
+				this.isResizingWindow = false;
+
+			}
+
+		}
+
+
         void HandleRightClickMenu(Event e)
         {
             if (e.type == EventType.mouseDown && e.button == 1)
@@ -284,7 +315,8 @@ namespace Reactor
             Editor e = Editor.CreateEditor(sequence.nodes[id]);
             e.DrawDefaultInspector();//do default node drawing
                                      //e.OnInspectorGUI();
-            GUI.DragWindow();
+			if(!isResizingWindow)	
+            	GUI.DragWindow();
         }
     }
 }

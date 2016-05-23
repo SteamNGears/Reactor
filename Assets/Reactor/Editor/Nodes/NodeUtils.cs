@@ -25,5 +25,14 @@ namespace Reactor
             if (n.GetType() != typeof(StartNode))
                 Handles.DrawSolidDisc(endPos, Vector3.forward, 6.0f);
         }
+
+
+
+		public static bool IsResizeHandle(BaseNode n, Vector2 clickPos)
+		{
+			if(((n.position.xMax - 20) < clickPos.x && clickPos.x  < n.position.xMax) && ((n.position.yMax - 20) < clickPos.y && clickPos.y < n.position.yMax))
+				return true;
+			return false;
+		}
     }
 }
