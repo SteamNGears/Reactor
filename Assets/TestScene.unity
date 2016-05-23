@@ -85,19 +85,93 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &436688763
+--- !u!1 &410319399
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 436688769}
-  - 114: {fileID: 436688768}
-  - 114: {fileID: 436688767}
-  - 114: {fileID: 436688766}
-  - 114: {fileID: 436688765}
-  - 114: {fileID: 436688764}
+  - 4: {fileID: 410319403}
+  - 33: {fileID: 410319402}
+  - 65: {fileID: 410319401}
+  - 23: {fileID: 410319400}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &410319400
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 410319399}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!65 &410319401
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 410319399}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &410319402
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 410319399}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &410319403
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 410319399}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+--- !u!1 &1323948402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1323948408}
+  - 114: {fileID: 1323948407}
+  - 114: {fileID: 1323948406}
+  - 114: {fileID: 1323948405}
+  - 114: {fileID: 1323948404}
+  - 114: {fileID: 1323948403}
+  - 114: {fileID: 1323948409}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -105,35 +179,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &436688764
+--- !u!114 &1323948403
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 436688763}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24736a0652abf474c9f64c692d99afcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  NodeName: DEBUG LOG
-  next:
-  - {fileID: 436688766}
-  prev: {fileID: 436688765}
-  position:
-    serializedVersion: 2
-    x: 452
-    y: 53
-    width: 200
-    height: 200
-  message: Disabling...
---- !u!114 &436688765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 436688763}
+  m_GameObject: {fileID: 1323948402}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bf42ec743ba2c04bb2c291b121ed4c3, type: 3}
@@ -142,45 +193,68 @@ MonoBehaviour:
   id: 0
   NodeName: DELAY
   next:
-  - {fileID: 436688764}
-  prev: {fileID: 436688768}
+  - {fileID: 1323948405}
+  prev: {fileID: 1323948407}
   position:
     serializedVersion: 2
-    x: 190
-    y: 80
+    x: 243
+    y: 93
     width: 200
     height: 200
   delay: 1
   timer: 0
---- !u!114 &436688766
+--- !u!114 &1323948404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 436688763}
+  m_GameObject: {fileID: 1323948402}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cc09e9f699a3467faad68ac6d81d91b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8432856c6b9814bea9581670a699b4a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  NodeName: 
+  NodeName: PLAY ANIMATION
   next: []
-  prev: {fileID: 436688764}
+  prev: {fileID: 1323948405}
   position:
     serializedVersion: 2
-    x: 750
-    y: 69
+    x: 739
+    y: 214
     width: 200
     height: 200
-  target: {fileID: 0}
-  value: 0
---- !u!114 &436688767
+  AnimationName: Door_Open
+  anim: {fileID: 0}
+--- !u!114 &1323948405
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 436688763}
+  m_GameObject: {fileID: 1323948402}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24736a0652abf474c9f64c692d99afcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  NodeName: DEBUG LOG
+  next:
+  - {fileID: 1323948404}
+  prev: {fileID: 1323948403}
+  position:
+    serializedVersion: 2
+    x: 478
+    y: 256
+    width: 200
+    height: 200
+  message: Test
+--- !u!114 &1323948406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1323948402}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a58d11efd42764c1d90d87f385701976, type: 3}
@@ -189,16 +263,16 @@ MonoBehaviour:
   nodes:
     keys: 00000000010000000200000003000000
     values:
-    - {fileID: 436688768}
-    - {fileID: 436688766}
-    - {fileID: 436688765}
-    - {fileID: 436688764}
---- !u!114 &436688768
+    - {fileID: 1323948407}
+    - {fileID: 1323948405}
+    - {fileID: 1323948404}
+    - {fileID: 1323948403}
+--- !u!114 &1323948407
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 436688763}
+  m_GameObject: {fileID: 1323948402}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b490cdf99a1354fff9ea3aa627009cf1, type: 3}
@@ -207,26 +281,63 @@ MonoBehaviour:
   id: 0
   NodeName: START
   next:
-  - {fileID: 436688765}
+  - {fileID: 1323948403}
   prev: {fileID: 0}
   position:
     serializedVersion: 2
-    x: -19
-    y: 374
+    x: 13
+    y: 206
     width: 200
     height: 100
---- !u!4 &436688769
+--- !u!4 &1323948408
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 436688763}
+  m_GameObject: {fileID: 1323948402}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.46706724, y: -2.10753441, z: -9.31406975}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
+--- !u!114 &1323948409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1323948402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11931d719684b457f865201041661336, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  e:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: .33283183
+      value: .766061544
+      inSlope: 1.2409687
+      outSlope: 1.2409687
+      tangentMode: 0
+    - time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  node: {fileID: 0}
 --- !u!1 &1512664783
 GameObject:
   m_ObjectHideFlags: 0

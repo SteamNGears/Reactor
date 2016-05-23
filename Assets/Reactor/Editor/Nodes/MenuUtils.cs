@@ -16,15 +16,26 @@ namespace Reactor
 		
 			var subclasses = from assembly in AppDomain.CurrentDomain.GetAssemblies () from type in assembly.GetTypes () where type.IsSubclassOf (typeof(BaseNode)) select type;
 		
-			foreach (Type t in subclasses) {
+			foreach (Type t in subclasses) 
+			{
 				if (t == typeof(StartNode))
 					continue;
-				menu.AddItem (new GUIContent (t.Name), false, func, t);
+				menu.AddItem (new GUIContent (GetCustomMenu(t)), false, func, t);
 			}
-		
+
 			//menu.AddSeparator("");
 			menu.ShowAsContext ();
 		}
 	
+		private static string GetCustomMenu(System.Type t)
+		{
+			foreach(System.Object a in t.GetCustomAttributes(false))
+			{
+				if(a is NodeMenu)
+					return ((NodeMenu)a).path;
+			}
+			return "Other/" + t.Name;
+		}
+
 	}
 }

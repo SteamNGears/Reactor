@@ -2,6 +2,7 @@
 using System.Collections;
 using Reactor;
 
+[NodeMenu("Wait/Delay")]
 public class DelayNode : BaseNode
 {
     [Range(0.0f, float.MaxValue)]

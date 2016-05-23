@@ -2,12 +2,17 @@
 using System.Collections;
 using Reactor;
 
-
-
-public class PlayAnimationNode : BaseNode {
+[NodeMenu("Animation/Play Animaiton")]
+public class PlayAnimationNode : BaseNode
+{
 
 	public string AnimationName = "Door_Open";
 	public Animator anim;
+
+	public PlayAnimationNode()
+	{
+		this.NodeName = "PLAY ANIMATION";
+	}
 
 	// Use this for initialization
 	void Start () {

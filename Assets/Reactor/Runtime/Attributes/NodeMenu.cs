@@ -2,12 +2,16 @@
 using System.Collections;
 using System;
 
-[AttributeUsage(AttributeTargets.Class)]
-public class NodeMenu : Attribute
+namespace Reactor
 {
-	public string path;
-	public NodeMenu(string path)
+	[AttributeUsage(AttributeTargets.Class)]
+	public class NodeMenu : Attribute
 	{
-		this.path = path;
+		public string path;
+
+		public NodeMenu (string path)
+		{
+			this.path = path;
+		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using Reactor;
 
+[NodeMenu("Wait/Wait for Click")]
 public class WaitForClickNode : BaseNode 
 {
 	public enum ClickTypes{LEFT = 0, RIGHT = 1, MIDDLE = 2};
@@ -9,6 +10,12 @@ public class WaitForClickNode : BaseNode
 	public Collider target;
 	Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 	RaycastHit hit;
+
+	public WaitForClickNode()
+	{
+		this.NodeName = "WAIT FOR CLICK";
+	}
+
 
 	// Use this for initialization
 	void Start () 

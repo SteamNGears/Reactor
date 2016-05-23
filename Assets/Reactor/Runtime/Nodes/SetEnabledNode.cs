@@ -7,7 +7,10 @@ public class SetEnabledNode :  BaseNode
 	public GameObject target;
 	public bool value = false;
 
-
+	public SetEnabledNode()
+	{
+		this.NodeName = "SET ENABLED";
+	}
 	void Start ()
 	{
 		if(this.target == null)
