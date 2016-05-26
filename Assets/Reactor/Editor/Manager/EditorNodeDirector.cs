@@ -7,7 +7,7 @@ namespace Reactor
 	/// <summary>
 	/// The editor display for the Node Director
 	/// </summary>
-	[CustomEditor (typeof(NodeScene))]
+	[CustomEditor (typeof(ReactorSequence))]
 	public class EditorNodeDirector : Editor
 	{ 
         

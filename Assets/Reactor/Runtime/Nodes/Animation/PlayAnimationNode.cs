@@ -2,7 +2,7 @@
 using System.Collections;
 using Reactor;
 
-[NodeMenu("Animation/Play Animaiton")]
+[NodeMenu("Play/Play Animaiton")]
 public class PlayAnimationNode : BaseNode
 {
 

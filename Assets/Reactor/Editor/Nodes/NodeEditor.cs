@@ -13,7 +13,7 @@ namespace Reactor
         /// <summary>
         /// The sequence.
         /// </summary>
-        public static NodeScene sequence;
+        public static ReactorSequence sequence;
         Vector2 RightClickPos = new Vector2();
         Vector2 Pan = new Vector2();
         Vector2 deltaPan = new Vector2();
@@ -44,7 +44,7 @@ namespace Reactor
 				var go  = Selection.activeGameObject;
 				if(go != null)
 				{
-					var selection = go.GetComponent<NodeScene>();
+					var selection = go.GetComponent<ReactorSequence>();
 					if(selection!= null)
 					{
 						sequence = selection;
@@ -64,7 +64,7 @@ namespace Reactor
 			if(target == null)
 				return;
 
-			var tmp = target.GetComponent<NodeScene>();
+			var tmp = target.GetComponent<ReactorSequence>();
 			if(tmp != null)
 				sequence = tmp;
             
@@ -278,7 +278,7 @@ namespace Reactor
         }
 
 
-        public void DrawDrop(BaseNode n, int id)
+        public void DrawDrop(BaseNode n, int id) 
         {
 			if(n == null)
 				return;
@@ -305,8 +305,14 @@ namespace Reactor
                 }
             }
 
-            //GUI.Box(new Rect(n.position.x - margin, n.position.y - margin, n.position.width + (2 * margin),  n.position.height + (2 * margin)),"");
-            n.position = GUI.Window(id, new Rect((n.position.x + deltaPan.x) * DeltaZoom, (n.position.y + deltaPan.y) * DeltaZoom, n.position.width * DeltaZoom, n.position.height * DeltaZoom), DrawNode, n.NodeName);
+            n.position = GUI.Window(
+				id, 
+				new Rect(
+					(n.position.x + deltaPan.x) * DeltaZoom, 
+			        (n.position.y + deltaPan.y) * DeltaZoom, 
+			        n.position.width * DeltaZoom, 
+			        n.position.height * DeltaZoom), 
+				DrawNode, n.NodeName);
             NodeUtils.DrawConnector(n);
         }
 
@@ -314,7 +320,8 @@ namespace Reactor
         {
             Editor e = Editor.CreateEditor(sequence.nodes[id]);
             e.DrawDefaultInspector();//do default node drawing
-                                     //e.OnInspectorGUI();
+//                                     //e.OnInspectorGUI();
+			DestroyImmediate(e);
 			if(!isResizingWindow)	
             	GUI.DragWindow();
         }

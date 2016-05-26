@@ -9,12 +9,11 @@ namespace Reactor
 	/// The node director allows nodes to be connected and executed in sequence or paralell
 	/// </summary>
 	[RequireComponent(typeof(StartNode))]
-	public class NodeScene : MonoBehaviour
+	public class ReactorSequence : MonoBehaviour
 	{
-
-		private int curID = 1;
-		public SerializableDictionary nodes = new SerializableDictionary();
-
+		[SerializeField]
+		public int curID = 1;
+		public SerializableDictionary nodes;// = new SerializableDictionary();
 
 
 		/// <summary>
@@ -49,6 +48,7 @@ namespace Reactor
 
 		void Reset()
 		{
+			nodes = new SerializableDictionary();
 			var start = this.gameObject.GetComponent<StartNode>();
 			if(start == null)
 				start = this.gameObject.AddComponent<StartNode>();
