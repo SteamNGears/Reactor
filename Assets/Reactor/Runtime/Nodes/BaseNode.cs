@@ -119,17 +119,5 @@ namespace Reactor
 				
 			this.next = newNode;
 		}
-
-
-
-
-        //-------------- @TODO: Move to editor script and call editor scrit from NodeEditor -------------
-#if UNITY_EDITOR
-        public virtual void OnNodeEditorGUI(int id)
-		{
-			// Do GUI stuff form editor script here
-			GUILayout.Button("Hello world!!!");
-		}
-		#endif
 	}
 }

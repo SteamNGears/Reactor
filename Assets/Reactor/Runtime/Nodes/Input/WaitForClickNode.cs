@@ -2,7 +2,7 @@
 using System.Collections;
 using Reactor;
 
-[NodeMenu("Wait/Wait for Click")]
+[NodeMenu("Input/Wait for Click\\Tap")]
 public class WaitForClickNode : BaseNode 
 {
 	public enum ClickTypes{LEFT = 0, RIGHT = 1, MIDDLE = 2};

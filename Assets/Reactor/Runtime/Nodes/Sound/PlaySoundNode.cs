@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace Reactor
 {
-	[NodeMenu("Play/PlaySound")]
+	[NodeMenu("Sound/Play Sound")]
 	public class PlaySoundNode : BaseNode 
 	{
 		public AudioSource m_AudioSource;

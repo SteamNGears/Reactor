@@ -14,39 +14,67 @@ namespace Reactor
         /// The sequence.
         /// </summary>
         public static ReactorSequence sequence;
-        Vector2 RightClickPos = new Vector2();
+        
+		Vector2 RightClickPos = new Vector2();
+		/// <summary>
+		/// The pan of the window
+		/// </summary>
         Vector2 Pan = new Vector2();
+		/// <summary>
+		/// The delta pan for the current frame
+		/// </summary>
         Vector2 deltaPan = new Vector2();
+		/// <summary>
+		/// the delta zoom for the current frame
+		/// </summary>
         float DeltaZoom = 1.0f;
 
+		/// <summary>
+		/// If the user is dragging a connector between two nodes
+		/// </summary>
         private bool isDraggingConnector = false;
+
+		/// <summary>
+		/// If the user is resuzing the window
+		/// </summary>
 		private bool isResizingWindow = false;
+
+		/// <summary>
+		/// Node that a connector is being dragged from
+		/// </summary>
         private BaseNode dragStart;
+
+		/// <summary>
+		/// The currently selectyed node
+		/// </summary>
         private BaseNode SelectedNode = null;
+
+		/// <summary>
+		/// The dictionary of node editors for the selected sequence
+		/// </summary>
+		private static Dictionary<BaseNode, Editor> editors = new Dictionary<BaseNode, Editor>();
 
 
         [MenuItem("Window/Node editor")]
         static void ShowEditor()
         {
             NodeEditor editor = EditorWindow.GetWindow<NodeEditor>();
-            editor.Init(Selection.activeGameObject);
-
+			editor.Repaint();
         }
-
         /// <summary>
         /// speeds up redrawing if a connector is being dragged
         /// </summary>
-        void Update()
+		void Update()
         {
 			//check for active gameobjet
 			if(Selection.activeObject != null && Selection.activeObject != sequence)
 			{
-				var go  = Selection.activeGameObject;
-				if(go != null)
+				if(Selection.activeGameObject != null)
 				{
-					var selection = go.GetComponent<ReactorSequence>();
-					if(selection!= null)
+					var selection = Selection.activeGameObject.GetComponent<ReactorSequence>();
+					if(selection!= null && sequence != selection)
 					{
+						dispose();
 						sequence = selection;
 						Repaint();
 						return;
@@ -56,19 +84,23 @@ namespace Reactor
 
 			if (isDraggingConnector || isResizingWindow || Application.isPlaying)
                 Repaint();
-        }
+		}
 
-        public void Init(GameObject target)
-        {
-			this.titleContent.text = "REACTOR";
-			if(target == null)
+		/// <summary>
+		/// Handles cleanup of the editors whcn a new sequence is selected
+		/// </summary>
+		private void dispose()
+		{
+			//Debug.Log("Disposing");
+			if(editors == null)
 				return;
+			foreach(BaseNode n in editors.Keys)
+			{
+				DestroyImmediate(editors[n]);
+			}
+			editors = new Dictionary<BaseNode, Editor>();
 
-			var tmp = target.GetComponent<ReactorSequence>();
-			if(tmp != null)
-				sequence = tmp;
-            
-        }
+		}
 
         /// <summary>
         /// TODO: Break this up into seperate handlers
@@ -81,10 +113,9 @@ namespace Reactor
 
             Event e = Event.current;
 
-            // HandleSelection(e);
-            HandleConnections(e);
-            HandleRightClickMenu(e);
-            HandlePanZoom(e);
+			HandleConnections();
+            HandlePanZoom();
+			HandleRightClickMenu(e);
 			HandleResize(e);
 
 
@@ -104,12 +135,20 @@ namespace Reactor
             EndWindows();
             GUI.EndGroup();
 
+
+
         }
 
         /* ----------------------------------------- Mouse Handling----------------------------------------------- */
 
-        void HandlePanZoom(Event e)
+
+		/// <summary>
+		/// Handles panning and zooming for the window
+		/// </summary>
+		/// <param name="e">E.</param>
+        void HandlePanZoom()
         {
+			Event e = Event.current;
             if ((e.type == EventType.MouseDrag) && e.button == 2)
             {
                 DeltaZoom = 1.0f;
@@ -136,8 +175,13 @@ namespace Reactor
             }
         }
 
-        void HandleConnections(Event e)
+		/// <summary>
+		/// Handles connections between nodes
+		/// </summary>
+		/// <param name="e">E.</param>
+        void HandleConnections()
         {
+			Event e = Event.current;
             if (sequence == null || sequence.nodes == null)
                 return;
             if ((e.type == EventType.MouseDown) && e.button == 0)
@@ -176,37 +220,12 @@ namespace Reactor
                 Repaint();//repaint to stop drawing the curve
             }
         }
+			
 
-        void HandleSelection(Event e)
-        {
-            if (sequence == null)
-                return;
-            if ((e.type == EventType.MouseDown) && e.button == 0)
-            {
-                if (!isDraggingConnector)
-                {
-                    foreach (int key in sequence.nodes.Keys)
-                    {
-                        if (sequence.nodes[key].position.Contains(e.mousePosition))
-                        {
-                            this.SelectedNode = sequence.nodes[key];
-                        }
-                    }
-                }
-            }
-
-            if (e.type == EventType.keyDown && e.keyCode == KeyCode.Delete && SelectedNode != null)
-            {
-                if (SelectedNode.prev != null)
-                    SelectedNode.prev.Remove(SelectedNode);
-                if (SelectedNode.next != null)
-                    foreach (BaseNode n in SelectedNode.next)
-                        n.prev = null;
-                ScriptableObject.DestroyImmediate(SelectedNode);
-            }
-        }
-
-
+		/// <summary>
+		/// Handles the resizing of widows
+		/// </summary>
+		/// <param name="e">E.</param>
 		void HandleResize(Event e)
 		{
 			if (sequence == null || sequence.nodes == null)
@@ -228,8 +247,8 @@ namespace Reactor
 
 			if(isResizingWindow)
 			{
-				this.dragStart.position.width += e.delta.x;
-				this.dragStart.position.height += e.delta.y;
+				this.dragStart.position.width += e.delta.x/2;
+				this.dragStart.position.height += e.delta.y/2 ; 
 			}
 
 			if ((e.type == EventType.MouseUp) && e.button == 0)
@@ -248,6 +267,12 @@ namespace Reactor
                 RightClickPos = e.mousePosition;
                 MenuUtils.RightClickMenu(this.AddItem);
             }
+
+			if(e.type == EventType.KeyDown && e.keyCode == KeyCode.Delete && SelectedNode != null && !(SelectedNode is StartNode) )
+			{
+				DeleteItem(SelectedNode);
+				Repaint();
+			}
         }
 
         /* ------------------------------------------ Adding items ---------------------------------------------- */
@@ -255,9 +280,23 @@ namespace Reactor
         public void AddItem(object o)
         {
 			sequence.AddNode((Type)o, RightClickPos);
+			//TODO: Add Undo functionalisy uning unity's UNDO stack
+			UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
         }
 
+		public void DeleteItem(BaseNode o)
+		{
+			//TODO: Add Undo functionality here
+			sequence.nodes.Remove(o.id);
+			if(o.prev != null)
+				o.prev.Remove(o);
+			if(o.next != null)
+				foreach(BaseNode n in o.next)
+					n.prev = null;
+			DestroyImmediate(o);
+			UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
 
+		}
 
 
 
@@ -269,7 +308,7 @@ namespace Reactor
                 return;
             foreach (int key in sequence.nodes.Keys)
             {
-                DrawDrop(sequence.nodes[key], key);
+               	DrawNode(sequence.nodes[key], key);
                 if (sequence.nodes[key].next == null)
                     continue;
                 foreach (BaseNode child in sequence.nodes[key].next)
@@ -278,7 +317,7 @@ namespace Reactor
         }
 
 
-        public void DrawDrop(BaseNode n, int id) 
+        public void DrawNode(BaseNode n, int id) 
         {
 			if(n == null)
 				return;
@@ -312,18 +351,33 @@ namespace Reactor
 			        (n.position.y + deltaPan.y) * DeltaZoom, 
 			        n.position.width * DeltaZoom, 
 			        n.position.height * DeltaZoom), 
-				DrawNode, n.NodeName);
+				DrawNodeCallback, n.NodeName);
             NodeUtils.DrawConnector(n);
         }
 
-        public void DrawNode(int id)
+		/// <summary>
+		/// The callback for drawing the node
+		/// </summary>
+		/// <param name="id">Identifier.</param>
+        public void DrawNodeCallback(int id)
         {
-            Editor e = Editor.CreateEditor(sequence.nodes[id]);
-            e.DrawDefaultInspector();//do default node drawing
-//                                     //e.OnInspectorGUI();
-			DestroyImmediate(e);
+			if(!sequence.nodes.ContainsKey(id))
+				return;
+			if ((Event.current.button == 0) && (Event.current.type == EventType.MouseDown)) 
+				this.SelectedNode = sequence.nodes[id];
+            
+
+			if(!editors.ContainsKey(sequence.nodes[id]) || editors[sequence.nodes[id]] == null)
+			{
+				editors[sequence.nodes[id]] = Editor.CreateEditor(sequence.nodes[id]);
+			}
+				
+			editors[sequence.nodes[id]].OnInspectorGUI();
+
+
 			if(!isResizingWindow)	
             	GUI.DragWindow();
+
         }
     }
 }

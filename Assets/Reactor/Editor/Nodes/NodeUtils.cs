@@ -13,9 +13,9 @@ namespace Reactor
         public static void DrawConnector(BaseNode n)
         {
             Handles.color = Color.white;
-
-            Vector3 startPos = new Vector3(n.position.x + n.position.width, n.position.y + n.position.height / 2, 0);
-            Vector3 endPos = new Vector3(n.position.x, n.position.y + n.position.height / 2, 0);
+			int fromTop = 7;
+			Vector3 startPos = new Vector3(n.position.x + n.position.width, n.position.y + fromTop, 0);
+			Vector3 endPos = new Vector3(n.position.x, n.position.y + fromTop, 0);
             Handles.DrawSolidDisc(startPos, Vector3.forward, 5.0f);
             if (n.GetType() != typeof(StartNode))
                 Handles.DrawSolidDisc(endPos, Vector3.forward, 5.0f);

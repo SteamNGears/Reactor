@@ -19,7 +19,7 @@ namespace Reactor
 			if (GUILayout.Button ("Open Sequence")) {
 				Debug.Log ("Opening Sequence");
 				NodeEditor editor = EditorWindow.GetWindow<NodeEditor>();
-				editor.Init(Selection.activeGameObject);
+				editor.Repaint();
 			}
             
 		}

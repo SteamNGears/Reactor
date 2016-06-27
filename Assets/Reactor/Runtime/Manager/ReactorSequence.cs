@@ -11,9 +11,9 @@ namespace Reactor
 	[RequireComponent(typeof(StartNode))]
 	public class ReactorSequence : MonoBehaviour
 	{
-		[SerializeField]
-		public int curID = 1;
-		public SerializableDictionary nodes;// = new SerializableDictionary();
+		[SerializeField,HideInInspector]
+		public int curID = 0;
+		public SerializableDictionary nodes = new SerializableDictionary();
 
 
 		/// <summary>
@@ -42,13 +42,13 @@ namespace Reactor
 			node.position = new Rect(position.x, position.y, 200,200);
 			//node.hideFlags = HideFlags.HideInInspector;
 			node.enabled = false;
-			this.nodes[curID++] = node;
+			this.nodes[++curID] = node;
+			node.id = curID;
 		}
 
 
 		void Reset()
 		{
-			nodes = new SerializableDictionary();
 			var start = this.gameObject.GetComponent<StartNode>();
 			if(start == null)
 				start = this.gameObject.AddComponent<StartNode>();

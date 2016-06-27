@@ -5,14 +5,13 @@ using Reactor;
 
 public class CallFunctionNode : BaseNode
 {
-	public GameObject target;
-	public UnityEvent funciton;
+	public UnityEvent function = new UnityEvent();
 
 	// Use this for initialization
 	void Start () 
 	{
-		if(this.funciton != null)
-			this.funciton.Invoke();
+		if(this.function != null)
+			this.function.Invoke();
 		this.End();
 	}
 	
